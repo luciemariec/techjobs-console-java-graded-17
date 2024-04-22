@@ -42,6 +42,9 @@ public class JobData {
             }
         }
 
+        //Sort values alphabetically
+        Collections.sort(values);
+
         return values;
     }
 
@@ -74,8 +77,8 @@ public class JobData {
         for (HashMap<String, String> row : allJobs) {
 
             String aValue = row.get(column);
-
-            if (aValue.contains(value)) {
+            //case-insensitive
+            if (aValue.toLowerCase().contains(value.toLowerCase())) {
                 jobs.add(row);
             }
         }
@@ -94,8 +97,25 @@ public class JobData {
         // load data, if not already loaded
         loadData();
 
-        // TODO - implement this method
-        return null;
+        // Initialize a list to store matching jobs
+        ArrayList<HashMap<String, String>> matchingJobs = new ArrayList<>();
+
+        // Iterate over each job
+        for (HashMap<String, String> job : allJobs) {
+            // Iterate over each field of the job
+            for (String field : job.keySet()) {
+                // Get the value of the field
+                String fieldValue = job.get(field);
+                // Check if the field value contains the search term (case in-sensitive)
+                if (fieldValue.toLowerCase().contains(value.toLowerCase())) {
+                    // Add the job to the list of matching jobs
+                    matchingJobs.add(job);
+                }
+            }
+        }
+
+        // Return the list of matching jobs
+        return matchingJobs;
     }
 
     /**
